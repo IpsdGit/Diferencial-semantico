@@ -1,6 +1,0 @@
-streamlit
-pandas
-plotly
-streamlit-autorefresh
-qrcode[pil]
-firebase-admin
