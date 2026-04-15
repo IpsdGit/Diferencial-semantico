@@ -589,6 +589,8 @@ if "show_admin" not in st.session_state:
     st.session_state["show_admin"] = False
 if "auto_refresh" not in st.session_state:
     st.session_state["auto_refresh"] = True
+if "qr_url" not in st.session_state:
+    st.session_state["qr_url"] = "https://diferencial-docente.streamlit.app"
 
 _col_toggle, _col_space, _col_admin = st.columns([1, 3, 1])
 with _col_toggle:
@@ -764,7 +766,7 @@ if not st.session_state["show_admin"]:
             with col_qrp:
                 st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
                 st.markdown('<div class="qr-container">', unsafe_allow_html=True)
-                url_pres = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_pres")
+                url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
                     qr_p.add_data(url_pres)
@@ -791,7 +793,7 @@ if not st.session_state["show_admin"]:
             with col_qr_wait:
                 st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
                 st.markdown('<div class="qr-container">', unsafe_allow_html=True)
-                url_wait = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_wait")
+                url_wait = st.session_state["qr_url"]
                 if url_wait:
                     qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
                     qr_w.add_data(url_wait)
@@ -895,6 +897,15 @@ if st.session_state.get("show_admin", False):
                 <p style="color:#6B7A99">El dashboard se actualizará automáticamente cada 5 segundos.</p>
             </div>
             """, unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.markdown('<div class="section-title">⚙️ Configuración del Sistema</div>', unsafe_allow_html=True)
+        col_url, _ = st.columns([2, 1])
+        with col_url:
+            new_url = st.text_input("🔗 URL del Formulario para generar el Código QR:", value=st.session_state["qr_url"])
+            if new_url != st.session_state["qr_url"]:
+                st.session_state["qr_url"] = new_url
+                st.rerun()
 
         st.markdown("---")
         st.markdown('<div class="section-title">🗄️ Gestión de Datos</div>', unsafe_allow_html=True)
