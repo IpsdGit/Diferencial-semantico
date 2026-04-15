@@ -698,35 +698,36 @@ if not st.session_state["show_admin"]:
                     st.markdown(f'<div class="cat-header">📂 {cat_name}</div>', unsafe_allow_html=True)
 
                     for left_word, right_word in pares_cat:
-                        col1, col2, col3 = st.columns([2.5, 5, 2.5])
-                        with col1:
-                            st.markdown(f"<div class='word-left'>{left_word}</div>", unsafe_allow_html=True)
-                        with col2:
-                            key_name = f"{left_word}_{right_word}"
-                            val = st.slider("", min_value=1, max_value=10, value=5,
-                                            key=key_name, label_visibility="collapsed")
-                            
-                            # Escala numérica ("marca de agua")
-                            st.markdown("""
-                            <div style="display: flex; justify-content: space-between; padding: 0 12px; margin-top: -24px; margin-bottom: 5px; opacity: 0.35; pointer-events: none; user-select: none;">
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">1</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">2</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">3</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">4</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">5</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">6</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">7</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">8</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">9</span>
-                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">10</span>
-                            </div>
-                            """, unsafe_allow_html=True)
-                            
-                            respuestas[key_name] = val
-                            if val != 5:
-                                answered += 1
-                        with col3:
-                            st.markdown(f"<div class='word-right'>{right_word}</div>", unsafe_allow_html=True)
+                        st.markdown(f"""
+                        <div style="display: flex; justify-content: space-between; margin-bottom: -15px; padding: 0 4px; align-items: flex-end;">
+                            <span style="font-weight: 700; font-size: 0.95rem; color: #C0392B;">{left_word}</span>
+                            <span style="font-weight: 700; font-size: 0.95rem; color: #1A7A82;">{right_word}</span>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+                        key_name = f"{left_word}_{right_word}"
+                        val = st.slider("", min_value=1, max_value=10, value=5,
+                                        key=key_name, label_visibility="collapsed")
+                        
+                        # Escala numérica ("marca de agua")
+                        st.markdown("""
+                        <div style="display: flex; justify-content: space-between; padding: 0 12px; margin-top: -24px; margin-bottom: 5px; opacity: 0.35; pointer-events: none; user-select: none;">
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">1</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">2</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">3</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">4</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">5</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">6</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">7</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">8</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">9</span>
+                            <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">10</span>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        
+                        respuestas[key_name] = val
+                        if val != 5:
+                            answered += 1
 
                 pct = int((answered / TOTAL_PAIRS) * 100)
                 st.markdown(f"""
