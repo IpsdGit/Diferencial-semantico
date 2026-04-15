@@ -570,37 +570,50 @@ def df_to_excel(df):
 render_header()
 
 # ============================================================
-# AUTO-REFRESCO GLOBAL (controlado)
+# NAVEGACIÓN Y AUTO-REFRESCO GLOBAL
 # ============================================================
+if "show_admin" not in st.session_state:
+    st.session_state["show_admin"] = False
 if "auto_refresh" not in st.session_state:
     st.session_state["auto_refresh"] = True
 
-_col_toggle, _col_space = st.columns([1, 4])
+_col_toggle, _col_space, _col_admin = st.columns([1, 3, 1])
 with _col_toggle:
     st.session_state["auto_refresh"] = st.toggle(
         "🔄 Actualización automática",
         value=st.session_state["auto_refresh"],
         help="Desactívalo mientras llenas el formulario para que los sliders no se reinicien."
     )
+with _col_admin:
+    btn_label = "⬅️ Volver a Público" if st.session_state["show_admin"] else "🔐 Panel Admin"
+    if st.button(btn_label, use_container_width=True):
+        st.session_state["show_admin"] = not st.session_state["show_admin"]
+        st.rerun()
 
-if st.session_state["auto_refresh"]:
+if st.session_state["auto_refresh"] and not st.session_state["show_admin"]:
     st_autorefresh(interval=5000, limit=None, key="global_refresh")
 
-# ============================================================
-# TABS
-# ============================================================
-tab1, tab2, tab3 = st.tabs([
-    "📋 Formulario",
-    "📽️ Modo Presentación",
-    "🔐 Panel Admin"
-])
+if st.session_state["show_admin"]:
+    st.StopException = st.script_runner.StopException if hasattr(st, "script_runner") else Exception
+    # Hack to just let the code fall through to the admin section below
+    pass
+
+if not st.session_state["show_admin"]:
+    # ============================================================
+    # TABS PÚBLICOS
+    # ============================================================
+    tab1, tab2 = st.tabs([
+        "📋 Formulario",
+        "📽️ Modo Presentación"
+    ])
 
 
 # ============================================================
 # PESTAÑA 1 — FORMULARIO
 # ============================================================
-with tab1:
-    st.markdown("""
+if not st.session_state["show_admin"]:
+    with tab1:
+        st.markdown("""
     <div class="instrucciones-box">
         <b>📌 Instrucciones:</b><br><br>
         Mediante este instrumento se explora la percepción y actitudes que tiene la comunidad universitaria sobre
@@ -654,8 +667,9 @@ with tab1:
 # ============================================================
 # PESTAÑA 2 — MODO PRESENTACIÓN
 # ============================================================
-with tab2:
-    st.markdown('<div class="section-title">📊 Dashboard en Vivo</div>', unsafe_allow_html=True)
+if not st.session_state["show_admin"]:
+    with tab2:
+        st.markdown('<div class="section-title">📊 Dashboard en Vivo</div>', unsafe_allow_html=True)
 
     st.markdown("""
     <div style="text-align:center; margin-bottom:20px;">
@@ -733,7 +747,7 @@ with tab2:
 # ============================================================
 # PESTAÑA 3 — PANEL ADMIN
 # ============================================================
-with tab3:
+if st.session_state.get("show_admin", False):
     st.markdown('<div class="section-title">🔐 Acceso Restringido — Panel de Administrador</div>', unsafe_allow_html=True)
 
     if "admin_auth" not in st.session_state:
