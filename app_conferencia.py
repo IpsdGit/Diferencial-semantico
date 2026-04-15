@@ -626,41 +626,41 @@ if not st.session_state["show_admin"]:
     </div>
     """, unsafe_allow_html=True)
 
-    with st.form("semantic_form", clear_on_submit=True):
-        respuestas = {}
-        answered = 0
+        with st.form("semantic_form", clear_on_submit=True):
+            respuestas = {}
+            answered = 0
 
-        for cat_name, pares_cat in CATEGORIAS.items():
-            st.markdown(f'<div class="cat-header">📂 {cat_name}</div>', unsafe_allow_html=True)
+            for cat_name, pares_cat in CATEGORIAS.items():
+                st.markdown(f'<div class="cat-header">📂 {cat_name}</div>', unsafe_allow_html=True)
 
-            for left_word, right_word in pares_cat:
-                col1, col2, col3 = st.columns([2.5, 5, 2.5])
-                with col1:
-                    st.markdown(f"<div class='word-left'>{left_word}</div>", unsafe_allow_html=True)
-                with col2:
-                    key_name = f"{left_word}_{right_word}"
-                    val = st.slider("", min_value=1, max_value=10, value=5,
-                                    key=key_name, label_visibility="collapsed")
-                    respuestas[key_name] = val
-                    if val != 5:
-                        answered += 1
-                with col3:
-                    st.markdown(f"<div class='word-right'>{right_word}</div>", unsafe_allow_html=True)
+                for left_word, right_word in pares_cat:
+                    col1, col2, col3 = st.columns([2.5, 5, 2.5])
+                    with col1:
+                        st.markdown(f"<div class='word-left'>{left_word}</div>", unsafe_allow_html=True)
+                    with col2:
+                        key_name = f"{left_word}_{right_word}"
+                        val = st.slider("", min_value=1, max_value=10, value=5,
+                                        key=key_name, label_visibility="collapsed")
+                        respuestas[key_name] = val
+                        if val != 5:
+                            answered += 1
+                    with col3:
+                        st.markdown(f"<div class='word-right'>{right_word}</div>", unsafe_allow_html=True)
 
-        pct = int((answered / TOTAL_PAIRS) * 100)
-        st.markdown(f"""
-        <div class="prog-label">{answered}/{TOTAL_PAIRS} pares respondidos &nbsp;·&nbsp; {pct}%</div>
-        <div class="prog-wrapper"><div class="prog-fill" style="width:{pct}%"></div></div>
-        """, unsafe_allow_html=True)
+            pct = int((answered / TOTAL_PAIRS) * 100)
+            st.markdown(f"""
+            <div class="prog-label">{answered}/{TOTAL_PAIRS} pares respondidos &nbsp;·&nbsp; {pct}%</div>
+            <div class="prog-wrapper"><div class="prog-fill" style="width:{pct}%"></div></div>
+            """, unsafe_allow_html=True)
 
-        st.write("")
-        submitted = st.form_submit_button("✅ Enviar mis Respuestas", use_container_width=True)
+            st.write("")
+            submitted = st.form_submit_button("✅ Enviar mis Respuestas", use_container_width=True)
 
-        if submitted:
-            respuestas["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            db.collection(COLLECTION_NAME).add(respuestas)
-            st.success("🎉 ¡Respuestas enviadas exitosamente! Muchas gracias por su participación.")
-            st.balloons()
+            if submitted:
+                respuestas["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                db.collection(COLLECTION_NAME).add(respuestas)
+                st.success("🎉 ¡Respuestas enviadas exitosamente! Muchas gracias por su participación.")
+                st.balloons()
 
 
 
