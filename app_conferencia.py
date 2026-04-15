@@ -214,18 +214,38 @@ div[data-baseweb="tab-border"]    { background-color: rgba(0,44,158,0.15) !impor
     box-shadow: 0 2px 12px rgba(0,44,158,0.08);
 }
 
-/* ── BOTONES ── */
-.stButton > button {
+/* ── BOTONES (todos los tipos) ── */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button,
+[data-testid="stBaseButton-secondary"],
+[data-testid="stBaseButton-primary"] {
     background: linear-gradient(135deg, var(--blue), var(--navy)) !important;
-    color: #FFFFFF !important; border: none !important;
-    border-radius: 10px !important; font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important; transition: all 0.2s !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+    transition: all 0.2s !important;
     box-shadow: 0 4px 14px rgba(0,44,158,0.25) !important;
 }
-.stButton > button:hover {
-    background: linear-gradient(135deg, #003EC4, var(--navy)) !important;
-    color: #FFFFFF !important; transform: translateY(-2px) !important;
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+[data-testid="stFormSubmitButton"] > button:hover,
+[data-testid="stBaseButton-secondary"]:hover,
+[data-testid="stBaseButton-primary"]:hover {
+    background: linear-gradient(135deg, #1A45C8, var(--navy)) !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px) !important;
     box-shadow: 0 8px 22px rgba(0,44,158,0.35) !important;
+}
+/* Texto dentro del botón siempre blanco */
+.stButton > button p,
+.stDownloadButton > button p,
+[data-testid="stFormSubmitButton"] > button p,
+[data-testid="stBaseButton-secondary"] p,
+[data-testid="stBaseButton-primary"] p {
+    color: #FFFFFF !important;
 }
 
 /* ── ALERTS ── */
