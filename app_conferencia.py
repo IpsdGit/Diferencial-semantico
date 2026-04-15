@@ -794,7 +794,7 @@ if not st.session_state["show_admin"]:
                 </div>
                 """, unsafe_allow_html=True)
             with col_qr_wait:
-                st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa</div>', unsafe_allow_html=True)
                 url_wait = st.session_state["qr_url"]
                 if url_wait:
                     qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
