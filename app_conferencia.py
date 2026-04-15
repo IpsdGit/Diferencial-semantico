@@ -643,15 +643,35 @@ if not st.session_state["show_admin"]:
             <script>
             let attempts = 0;
             const interval = setInterval(() => {
-                const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
-                if(tabs && tabs.length > 1){
-                    window.parent.document.querySelector('.main').scrollTo(0,0);
-                    tabs[1].click();
-                    clearInterval(interval);
-                }
+                try {
+                    const doc = window.parent.document;
+                    // Mover scroll arriba
+                    const mainObj = doc.querySelector('.main');
+                    if (mainObj) mainObj.scrollTo(0, 0);
+                    else window.parent.scrollTo(0, 0);
+
+                    // Buscar el botón de la pestaña por su texto visible
+                    const btns = doc.querySelectorAll('button');
+                    let targetTab = null;
+                    for (let i = 0; i < btns.length; i++) {
+                        if (btns[i].innerText && btns[i].innerText.includes('Modo Presentación')) {
+                            targetTab = btns[i];
+                            break;
+                        }
+                    }
+
+                    if (targetTab) {
+                        // Forzar el click nativo
+                        targetTab.click();
+                        // Forzar click sintético de React por si el nativo es ignorado
+                        targetTab.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window.parent }));
+                        clearInterval(interval);
+                    }
+                } catch(e) {}
+                
                 attempts++;
-                if(attempts >= 10) clearInterval(interval);
-            }, 500);
+                if(attempts >= 15) clearInterval(interval);
+            }, 300);
             </script>
             """, height=0)
         else:
