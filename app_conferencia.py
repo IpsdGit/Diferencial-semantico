@@ -765,7 +765,6 @@ if not st.session_state["show_admin"]:
 
             with col_qrp:
                 st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
-                st.markdown('<div class="qr-container">', unsafe_allow_html=True)
                 url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
@@ -774,11 +773,15 @@ if not st.session_state["show_admin"]:
                     img_qrp = qr_p.make_image(fill_color="#002C9E", back_color="white")
                     buf_p = BytesIO()
                     img_qrp.save(buf_p, format="PNG")
-                    st.image(buf_p, use_container_width=True)
-                st.markdown("""
-                <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
-                completa el diferencial semántico</div>""", unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                    buf_p.seek(0)
+                    b64 = base64.b64encode(buf_p.read()).decode()
+                    st.markdown(f'''
+                    <div class="qr-container">
+                        <img src="data:image/png;base64,{b64}" style="width:100%; border-radius:8px;">
+                        <div style="font-size:0.9rem;font-weight:700;color:#1A2340;text-align:center;margin-top:12px;">ESCANEA AQUÍ</div>
+                        <div style="font-size:0.75rem;color:#6B7A99;text-align:center;margin-top:4px;">para unirte al diferencial semántico</div>
+                    </div>
+                    ''', unsafe_allow_html=True)
 
         else:
             col_wait, col_qr_wait = st.columns([3, 1])
@@ -792,7 +795,6 @@ if not st.session_state["show_admin"]:
                 """, unsafe_allow_html=True)
             with col_qr_wait:
                 st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
-                st.markdown('<div class="qr-container">', unsafe_allow_html=True)
                 url_wait = st.session_state["qr_url"]
                 if url_wait:
                     qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
@@ -801,11 +803,15 @@ if not st.session_state["show_admin"]:
                     img_qrw = qr_w.make_image(fill_color="#002C9E", back_color="white")
                     buf_w = BytesIO()
                     img_qrw.save(buf_w, format="PNG")
-                    st.image(buf_w, use_container_width=True)
-                st.markdown("""
-                <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
-                completa el diferencial semántico</div>""", unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                    buf_w.seek(0)
+                    b64_w = base64.b64encode(buf_w.read()).decode()
+                    st.markdown(f'''
+                    <div class="qr-container">
+                        <img src="data:image/png;base64,{b64_w}" style="width:100%; border-radius:8px;">
+                        <div style="font-size:0.9rem;font-weight:700;color:#1A2340;text-align:center;margin-top:12px;">ESCANEA AQUÍ</div>
+                        <div style="font-size:0.75rem;color:#6B7A99;text-align:center;margin-top:4px;">para iniciar la dinámica</div>
+                    </div>
+                    ''', unsafe_allow_html=True)
 
 
 # ============================================================
