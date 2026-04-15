@@ -61,7 +61,7 @@ CATEGORIAS = {
 PAIRS = [par for cat in CATEGORIAS.values() for par in cat]
 TOTAL_PAIRS = len(PAIRS)
 
-ADMIN_PASS = "admin1234"
+ADMIN_PASS = "ipsd1234"
 
 # ============================================================
 # ESTILOS CSS GLOBALES  (sin f-string → sin problemas de llaves)
