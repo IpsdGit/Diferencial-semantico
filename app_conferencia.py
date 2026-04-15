@@ -628,16 +628,30 @@ if not st.session_state["show_admin"]:
     with tab1:
         if st.session_state.get("completed", False):
             st.success("🎉 ¡Respuestas enviadas exitosamente! Muchas gracias por tu participación.")
-            st.markdown("<p style='text-align:center;color:#6B7A99;'>Redirigiendo a los resultados. Si no ocurre automáticamente, haz clic en la pestaña <b>Modo Presentación</b>.</p>", unsafe_allow_html=True)
+            st.markdown("""
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 40px;">
+                <style>
+                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                .spinner-unah { border: 4px solid rgba(0,44,158,0.1); border-top: 4px solid #002C9E; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
+                </style>
+                <div class="spinner-unah"></div>
+                <p style="color:#1A2340; font-weight:700; margin-top:20px; font-size:1.1rem;">Cargando Resultados en Vivo...</p>
+                <p style="color:#6B7A99; font-size:0.9rem; margin-top:5px; text-align:center;">Si la redirección no ocurre automáticamente, sube y haz clic en la pestaña <b>Modo Presentación</b>.</p>
+            </div>
+            """, unsafe_allow_html=True)
             st.components.v1.html("""
             <script>
-            setTimeout(() => {
-                window.parent.document.querySelector('.main').scrollTo(0,0);
-                var tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
-                if(tabs.length > 1){
+            let attempts = 0;
+            const interval = setInterval(() => {
+                const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+                if(tabs && tabs.length > 1){
+                    window.parent.document.querySelector('.main').scrollTo(0,0);
                     tabs[1].click();
+                    clearInterval(interval);
                 }
-            }, 600);
+                attempts++;
+                if(attempts >= 10) clearInterval(interval);
+            }, 500);
             </script>
             """, height=0)
         else:
