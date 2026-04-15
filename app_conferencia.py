@@ -248,8 +248,17 @@ div[data-baseweb="tab-border"]    { background-color: rgba(0,44,158,0.15) !impor
     color: #FFFFFF !important;
 }
 
-/* ── ALERTS ── */
+/* ── ALERTS — texto siempre oscuro ── */
 .stAlert { border-radius: 12px !important; }
+.stAlert p,
+.stAlert span,
+.stAlert div,
+[data-testid="stNotification"] p,
+[data-testid="stNotification"] span,
+[role="alert"] p,
+[role="alert"] span {
+    color: #1A2340 !important;
+}
 
 /* ── PRESENTACIÓN ── */
 .pres-kpi-value {
