@@ -516,7 +516,10 @@ def heatmap_chart(df, promedios):
         ],
         showscale=True,
         hovertemplate="Par: %{y}<br>Valor en escala: %{x}<br>Respuestas: %{z}<extra></extra>",
-        colorbar=dict(title="Respuestas", tickfont=dict(color="#1A2340"), titlefont=dict(color="#1A2340"))
+        colorbar=dict(
+            title=dict(text="Respuestas", font=dict(color="#1A2340")),
+            tickfont=dict(color="#1A2340")
+        )
     ))
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
