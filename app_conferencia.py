@@ -626,54 +626,69 @@ if not st.session_state["show_admin"]:
 # ============================================================
 if not st.session_state["show_admin"]:
     with tab1:
-        st.markdown("""
-    <div class="instrucciones-box">
-        <b>📌 Instrucciones:</b><br><br>
-        Mediante este instrumento se explora la percepción y actitudes que tiene la comunidad universitaria sobre
-        la <b>formación en sostenibilidad</b>.<br><br>
-        Se presentan pares de adjetivos:
-        <span style="color:#C0392B;font-weight:700;">negativos a la izquierda</span> y
-        <span style="color:#1A7A82;font-weight:700;">positivos a la derecha</span>.
-        La escala es de <b>1 a 10</b>.<br><br>
-        Su participación es <b>completamente anónima</b>. Deslice el marcador al número que mejor represente su opinión.
-    </div>
-    """, unsafe_allow_html=True)
+        if st.session_state.get("completed", False):
+            st.success("🎉 ¡Respuestas enviadas exitosamente! Muchas gracias por tu participación.")
+            st.markdown("<p style='text-align:center;color:#6B7A99;'>Redirigiendo a los resultados. Si no ocurre automáticamente, haz clic en la pestaña <b>Modo Presentación</b>.</p>", unsafe_allow_html=True)
+            st.components.v1.html("""
+            <script>
+            setTimeout(() => {
+                window.parent.document.querySelector('.main').scrollTo(0,0);
+                var tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+                if(tabs.length > 1){
+                    tabs[1].click();
+                }
+            }, 600);
+            </script>
+            """, height=0)
+        else:
+            st.markdown("""
+        <div class="instrucciones-box">
+            <b>📌 Instrucciones:</b><br><br>
+            Mediante este instrumento se explora la percepción y actitudes que tiene la comunidad universitaria sobre
+            la <b>formación en sostenibilidad</b>.<br><br>
+            Se presentan pares de adjetivos:
+            <span style="color:#C0392B;font-weight:700;">negativos a la izquierda</span> y
+            <span style="color:#1A7A82;font-weight:700;">positivos a la derecha</span>.
+            La escala es de <b>1 a 10</b>.<br><br>
+            Su participación es <b>completamente anónima</b>. Deslice el marcador al número que mejor represente su opinión.
+        </div>
+        """, unsafe_allow_html=True)
 
-        with st.form("semantic_form", clear_on_submit=True):
-            respuestas = {}
-            answered = 0
+            with st.form("semantic_form", clear_on_submit=True):
+                respuestas = {}
+                answered = 0
 
-            for cat_name, pares_cat in CATEGORIAS.items():
-                st.markdown(f'<div class="cat-header">📂 {cat_name}</div>', unsafe_allow_html=True)
+                for cat_name, pares_cat in CATEGORIAS.items():
+                    st.markdown(f'<div class="cat-header">📂 {cat_name}</div>', unsafe_allow_html=True)
 
-                for left_word, right_word in pares_cat:
-                    col1, col2, col3 = st.columns([2.5, 5, 2.5])
-                    with col1:
-                        st.markdown(f"<div class='word-left'>{left_word}</div>", unsafe_allow_html=True)
-                    with col2:
-                        key_name = f"{left_word}_{right_word}"
-                        val = st.slider("", min_value=1, max_value=10, value=5,
-                                        key=key_name, label_visibility="collapsed")
-                        respuestas[key_name] = val
-                        if val != 5:
-                            answered += 1
-                    with col3:
-                        st.markdown(f"<div class='word-right'>{right_word}</div>", unsafe_allow_html=True)
+                    for left_word, right_word in pares_cat:
+                        col1, col2, col3 = st.columns([2.5, 5, 2.5])
+                        with col1:
+                            st.markdown(f"<div class='word-left'>{left_word}</div>", unsafe_allow_html=True)
+                        with col2:
+                            key_name = f"{left_word}_{right_word}"
+                            val = st.slider("", min_value=1, max_value=10, value=5,
+                                            key=key_name, label_visibility="collapsed")
+                            respuestas[key_name] = val
+                            if val != 5:
+                                answered += 1
+                        with col3:
+                            st.markdown(f"<div class='word-right'>{right_word}</div>", unsafe_allow_html=True)
 
-            pct = int((answered / TOTAL_PAIRS) * 100)
-            st.markdown(f"""
-            <div class="prog-label">{answered}/{TOTAL_PAIRS} pares respondidos &nbsp;·&nbsp; {pct}%</div>
-            <div class="prog-wrapper"><div class="prog-fill" style="width:{pct}%"></div></div>
-            """, unsafe_allow_html=True)
+                pct = int((answered / TOTAL_PAIRS) * 100)
+                st.markdown(f"""
+                <div class="prog-label">{answered}/{TOTAL_PAIRS} pares respondidos &nbsp;·&nbsp; {pct}%</div>
+                <div class="prog-wrapper"><div class="prog-fill" style="width:{pct}%"></div></div>
+                """, unsafe_allow_html=True)
 
-            st.write("")
-            submitted = st.form_submit_button("✅ Enviar mis Respuestas", use_container_width=True)
+                st.write("")
+                submitted = st.form_submit_button("✅ Enviar mis Respuestas", use_container_width=True)
 
-            if submitted:
-                respuestas["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                db.collection(COLLECTION_NAME).add(respuestas)
-                st.success("🎉 ¡Respuestas enviadas exitosamente! Muchas gracias por su participación.")
-                st.balloons()
+                if submitted:
+                    respuestas["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    db.collection(COLLECTION_NAME).add(respuestas)
+                    st.session_state["completed"] = True
+                    st.rerun()
 
 
 
