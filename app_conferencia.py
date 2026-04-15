@@ -309,6 +309,28 @@ label[data-baseweb="label"] p,
 
 /* DataFrame */
 [data-testid="stDataFrame"] { border-radius: 12px !important; overflow: hidden; }
+
+/* ── EXPANDER — fondo claro siempre ── */
+[data-testid="stExpander"],
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] > details > summary,
+[data-testid="stExpander"] > details[open],
+[data-testid="stExpander"] > details[open] > div {
+    background: var(--card) !important;
+    color: var(--text) !important;
+    border-color: rgba(0,44,158,0.15) !important;
+    border-radius: 10px !important;
+}
+[data-testid="stExpander"] summary:hover {
+    background: var(--bg2) !important;
+}
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] details p,
+[data-testid="stExpander"] details span {
+    color: var(--text) !important;
+}
 </style>
 """)
 
