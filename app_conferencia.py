@@ -671,77 +671,77 @@ if not st.session_state["show_admin"]:
     with tab2:
         st.markdown('<div class="section-title">📊 Dashboard en Vivo</div>', unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style="text-align:center; margin-bottom:20px;">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Auto-actualiza cada 5s</span>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown("""
+        <div style="text-align:center; margin-bottom:20px;">
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Auto-actualiza cada 5s</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    df_p   = get_data()
-    prom_p = get_promedios(df_p) if not df_p.empty else {}
+        df_p   = get_data()
+        prom_p = get_promedios(df_p) if not df_p.empty else {}
 
-    if not df_p.empty and prom_p:
-        # ── KPIs siempre en la parte superior ──────────────────────
-        render_kpis(df_p, prom_p)
+        if not df_p.empty and prom_p:
+            # ── KPIs siempre en la parte superior ──────────────────────
+            render_kpis(df_p, prom_p)
 
-        st.write("")
+            st.write("")
 
-        col_rp, col_bp, col_qrp = st.columns([2, 2, 1])
-        with col_rp:
-            st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva</div>', unsafe_allow_html=True)
-            fig_r = radar_chart(prom_p)
-            fig_r.update_layout(height=540)
-            st.plotly_chart(fig_r, use_container_width=True, config={"displayModeBar": False})
+            col_rp, col_bp, col_qrp = st.columns([2, 2, 1])
+            with col_rp:
+                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva</div>', unsafe_allow_html=True)
+                fig_r = radar_chart(prom_p)
+                fig_r.update_layout(height=540)
+                st.plotly_chart(fig_r, use_container_width=True, config={"displayModeBar": False})
 
-        with col_bp:
-            st.markdown('<div class="section-title">📊 Promedios por Par Semántico</div>', unsafe_allow_html=True)
-            fig_b = bar_chart(prom_p)
-            fig_b.update_layout(height=540)
-            st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
+            with col_bp:
+                st.markdown('<div class="section-title">📊 Promedios por Par Semántico</div>', unsafe_allow_html=True)
+                fig_b = bar_chart(prom_p)
+                fig_b.update_layout(height=540)
+                st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
 
-        with col_qrp:
-            st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
-            st.markdown('<div class="qr-container">', unsafe_allow_html=True)
-            url_pres = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_pres")
-            if url_pres:
-                qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
-                qr_p.add_data(url_pres)
-                qr_p.make(fit=True)
-                img_qrp = qr_p.make_image(fill_color="#002C9E", back_color="white")
-                buf_p = BytesIO()
-                img_qrp.save(buf_p, format="PNG")
-                st.image(buf_p, use_container_width=True)
-            st.markdown("""
-            <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
-            completa el diferencial semántico</div>""", unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            with col_qrp:
+                st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
+                st.markdown('<div class="qr-container">', unsafe_allow_html=True)
+                url_pres = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_pres")
+                if url_pres:
+                    qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
+                    qr_p.add_data(url_pres)
+                    qr_p.make(fit=True)
+                    img_qrp = qr_p.make_image(fill_color="#002C9E", back_color="white")
+                    buf_p = BytesIO()
+                    img_qrp.save(buf_p, format="PNG")
+                    st.image(buf_p, use_container_width=True)
+                st.markdown("""
+                <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
+                completa el diferencial semántico</div>""", unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
 
-    else:
-        col_wait, col_qr_wait = st.columns([3, 1])
-        with col_wait:
-            st.markdown("""
-            <div style="text-align:center;padding:80px 20px;">
-                <div style="font-size:6rem">📡</div>
-                <h1 style="font-size:3rem;color:#002C9E">Esperando participantes...</h1>
-                <p style="font-size:1.3rem;color:#6B7A99">Las visualizaciones aparecerán automáticamente.</p>
-            </div>
-            """, unsafe_allow_html=True)
-        with col_qr_wait:
-            st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
-            st.markdown('<div class="qr-container">', unsafe_allow_html=True)
-            url_wait = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_wait")
-            if url_wait:
-                qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
-                qr_w.add_data(url_wait)
-                qr_w.make(fit=True)
-                img_qrw = qr_w.make_image(fill_color="#002C9E", back_color="white")
-                buf_w = BytesIO()
-                img_qrw.save(buf_w, format="PNG")
-                st.image(buf_w, use_container_width=True)
-            st.markdown("""
-            <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
-            completa el diferencial semántico</div>""", unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+        else:
+            col_wait, col_qr_wait = st.columns([3, 1])
+            with col_wait:
+                st.markdown("""
+                <div style="text-align:center;padding:80px 20px;">
+                    <div style="font-size:6rem">📡</div>
+                    <h1 style="font-size:3rem;color:#002C9E">Esperando participantes...</h1>
+                    <p style="font-size:1.3rem;color:#6B7A99">Las visualizaciones aparecerán automáticamente.</p>
+                </div>
+                """, unsafe_allow_html=True)
+            with col_qr_wait:
+                st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
+                st.markdown('<div class="qr-container">', unsafe_allow_html=True)
+                url_wait = st.text_input("URL:", value="https://diferencial-docente.streamlit.app", key="qr_url_wait")
+                if url_wait:
+                    qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
+                    qr_w.add_data(url_wait)
+                    qr_w.make(fit=True)
+                    img_qrw = qr_w.make_image(fill_color="#002C9E", back_color="white")
+                    buf_w = BytesIO()
+                    img_qrw.save(buf_w, format="PNG")
+                    st.image(buf_w, use_container_width=True)
+                st.markdown("""
+                <div style="font-size:0.78rem;color:#6B7A99;text-align:center;margin-top:8px;">Escanea y
+                completa el diferencial semántico</div>""", unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================
