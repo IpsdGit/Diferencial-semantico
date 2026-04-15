@@ -755,7 +755,7 @@ if not st.session_state["show_admin"]:
 
         st.markdown("""
         <div style="text-align:center; margin-bottom:20px;">
-            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Auto-actualiza cada 5s</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Actualiza cada 5s</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -770,7 +770,7 @@ if not st.session_state["show_admin"]:
 
             col_rp, col_bp, col_qrp = st.columns([2, 2, 1])
             with col_rp:
-                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva (Radar)</div>', unsafe_allow_html=True)
                 fig_r = radar_chart(prom_p)
                 fig_r.update_layout(height=540)
                 st.plotly_chart(fig_r, use_container_width=True, config={"displayModeBar": False})
@@ -782,7 +782,7 @@ if not st.session_state["show_admin"]:
                 st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
 
             with col_qrp:
-                st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">📱 Participa</div>', unsafe_allow_html=True)
                 url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
