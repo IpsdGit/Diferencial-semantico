@@ -498,7 +498,8 @@ def bar_chart(promedios):
 
 def heatmap_chart(df, promedios):
     keys   = list(promedios.keys())
-    labels = [f"{promedios[k]['left'][:10]}↔{promedios[k]['right'][:10]}" for k in keys]
+    # Usamos etiquetas completas, reemplazando el guion bajo por un guion para mayor legibilidad
+    labels = [k.replace('_', ' - ') for k in keys]
     matrix = []
     for k in keys:
         row = [int((df[k] == i).sum()) if k in df.columns else 0 for i in range(1, 11)]
@@ -506,21 +507,30 @@ def heatmap_chart(df, promedios):
 
     fig = go.Figure(go.Heatmap(
         z=matrix, x=list(range(1, 11)), y=labels,
+        xgap=2, ygap=2,  # Añade separación para que parezca una cuadrícula en lugar de barras
         colorscale=[
-            [0,   "#EEF1F8"],
-            [0.3, "rgba(0,44,158,0.35)"],
-            [0.7, "rgba(212,160,23,0.75)"],
-            [1,   "#002C9E"]
+            [0.0, "#F2F4F8"],  # 0 respuestas = gris muy claro (casi blanco)
+            [0.2, "#C0CBE0"],  # tono intermedio muy suave
+            [0.5, "#4FA6B1"],  # tono azul verdoso medio
+            [1.0, "#002C9E"]   # máximo de respuestas = azul UNAH profundo
         ],
         showscale=True,
-        hovertemplate="Par: %{y}<br>Valor: %{x}<br>Respuestas: %{z}<extra></extra>"
+        hovertemplate="Par: %{y}<br>Valor en escala: %{x}<br>Respuestas: %{z}<extra></extra>",
+        colorbar=dict(title="Respuestas", tickfont=dict(color="#1A2340"), titlefont=dict(color="#1A2340"))
     ))
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(title="Valor en la escala", color="#1A2340",
-                   tickfont=dict(color="#1A2340"), gridcolor="rgba(0,44,158,0.1)"),
-        yaxis=dict(color="#1A2340", tickfont=dict(color="#1A2340", size=9)),
-        height=480, margin=dict(l=10, r=10, t=10, b=40),
+        xaxis=dict(
+            title="Valor en la escala", color="#1A2340",
+            tickmode='linear', tick0=1, dtick=1,  # Fuerza mostrar los números del 1 al 10
+            tickfont=dict(color="#1A2340"), gridcolor="rgba(0,0,0,0)"
+        ),
+        yaxis=dict(
+            color="#1A2340", 
+            tickfont=dict(color="#1A2340", size=10),
+            autorange="reversed"  # Muestra el primer par en la parte superior
+        ),
+        height=550, margin=dict(l=10, r=10, t=10, b=40),
         font=dict(family="Inter", color="#1A2340")
     )
     return fig
