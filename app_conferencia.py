@@ -705,6 +705,23 @@ if not st.session_state["show_admin"]:
                             key_name = f"{left_word}_{right_word}"
                             val = st.slider("", min_value=1, max_value=10, value=5,
                                             key=key_name, label_visibility="collapsed")
+                            
+                            # Escala numérica ("marca de agua")
+                            st.markdown("""
+                            <div style="display: flex; justify-content: space-between; padding: 0 12px; margin-top: -18px; margin-bottom: 8px; opacity: 0.55; pointer-events: none; user-select: none;">
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">1</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">2</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">3</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">4</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">5</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">6</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">7</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">8</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">9</span>
+                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">10</span>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
                             respuestas[key_name] = val
                             if val != 5:
                                 answered += 1
@@ -737,7 +754,7 @@ if not st.session_state["show_admin"]:
 
         st.markdown("""
         <div style="text-align:center; margin-bottom:20px;">
-            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Actualiza cada 5s</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Auto-actualiza cada 5s</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -764,7 +781,7 @@ if not st.session_state["show_admin"]:
                 st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
 
             with col_qrp:
-                st.markdown('<div class="section-title">📱 Participa</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
                 url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
@@ -794,7 +811,7 @@ if not st.session_state["show_admin"]:
                 </div>
                 """, unsafe_allow_html=True)
             with col_qr_wait:
-                st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title" style="margin-top:60px;">📱 Participa aquí</div>', unsafe_allow_html=True)
                 url_wait = st.session_state["qr_url"]
                 if url_wait:
                     qr_w = qrcode.QRCode(version=1, box_size=10, border=2)
