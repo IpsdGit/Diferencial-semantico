@@ -590,7 +590,7 @@ if "show_admin" not in st.session_state:
 if "auto_refresh" not in st.session_state:
     st.session_state["auto_refresh"] = True
 if "qr_url" not in st.session_state:
-    st.session_state["qr_url"] = "https://diferencial-docente.streamlit.app"
+    st.session_state["qr_url"] = "https://diferencial-semantico.streamlit.app/"
 
 _col_toggle, _col_space, _col_admin = st.columns([1, 3, 1])
 with _col_toggle:
