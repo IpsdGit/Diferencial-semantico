@@ -285,6 +285,19 @@ header[data-testid="stHeader"] { background: transparent !important; }
     border-radius: 8px !important;
 }
 
+/* Labels de inputs y widgets — siempre color oscuro */
+[data-testid="stTextInput"] label,
+[data-testid="stTextInput"] label p,
+[data-testid="stTextInput"] label span,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] span,
+[data-testid="stToggle"] label p,
+label[data-baseweb="label"] p,
+.stTextInput label,
+.stMarkdown p {
+    color: var(--text) !important;
+}
+
 /* DataFrame */
 [data-testid="stDataFrame"] { border-radius: 12px !important; overflow: hidden; }
 </style>
