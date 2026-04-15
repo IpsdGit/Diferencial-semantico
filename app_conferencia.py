@@ -708,17 +708,17 @@ if not st.session_state["show_admin"]:
                             
                             # Escala numérica ("marca de agua")
                             st.markdown("""
-                            <div style="display: flex; justify-content: space-between; padding: 0 12px; margin-top: -18px; margin-bottom: 8px; opacity: 0.55; pointer-events: none; user-select: none;">
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">1</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">2</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">3</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">4</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">5</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">6</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">7</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">8</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">9</span>
-                                <span style="font-size: 0.65rem; color: #1A2340; font-weight: 600;">10</span>
+                            <div style="display: flex; justify-content: space-between; padding: 0 12px; margin-top: -24px; margin-bottom: 5px; opacity: 0.35; pointer-events: none; user-select: none;">
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">1</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">2</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">3</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">4</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">5</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">6</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">7</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">8</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">9</span>
+                                <span style="font-size: 0.6rem; color: #6B7A99; font-weight: 400;">10</span>
                             </div>
                             """, unsafe_allow_html=True)
                             
