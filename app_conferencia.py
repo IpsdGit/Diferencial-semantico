@@ -61,7 +61,7 @@ CATEGORIAS = {
 PAIRS = [par for cat in CATEGORIAS.values() for par in cat]
 TOTAL_PAIRS = len(PAIRS)
 
-ADMIN_PASS = "ipsd1234"
+ADMIN_PASS = "admin1234"
 
 # ============================================================
 # ESTILOS CSS GLOBALES  (sin f-string → sin problemas de llaves)
@@ -680,13 +680,9 @@ if not st.session_state["show_admin"]:
             st.markdown("""
         <div class="instrucciones-box">
             <b>📌 Instrucciones:</b><br><br>
-            Mediante este instrumento se explora la percepción y actitudes que tiene la comunidad universitaria sobre
-            la <b>formación en sostenibilidad</b>.<br><br>
-            Se presentan pares de adjetivos:
-            <span style="color:#C0392B;font-weight:700;">negativos a la izquierda</span> y
-            <span style="color:#1A7A82;font-weight:700;">positivos a la derecha</span>.
-            La escala es de <b>1 a 10</b>.<br><br>
-            Su participación es <b>completamente anónima</b>. Deslice el marcador al número que mejor represente su opinión.
+            El presente instrumento tiene como objetivo explorar las percepciones y actitudes de los docentes de la UNAH respecto a la formación en sostenibilidad. Para este fin, se presenta un listado de pares de adjetivos opuestos (<span style="color:#C0392B;font-weight:700;">negativos a la izquierda</span> y <span style="color:#1A7A82;font-weight:700;">positivos a la derecha</span>).<br><br>
+            La escala de valoración comprende del <b>1 al 10</b>. Para participar, deslice el marcador hacia el número que mejor represente su opinión, considerando que el <b>1</b> es el valor más cercano al extremo negativo y el <b>10</b> al extremo positivo.<br><br>
+            Le agradecemos expresar su opinión con total libertad, ya que su participación es <b>completamente anónima</b>. Al finalizar, podrá visualizar los resultados consolidados a través de la técnica de diferencial semántico.
         </div>
         """, unsafe_allow_html=True)
 
@@ -755,7 +751,7 @@ if not st.session_state["show_admin"]:
 
         st.markdown("""
         <div style="text-align:center; margin-bottom:20px;">
-            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Actualiza cada 5s</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Auto-actualiza cada 5s</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -770,7 +766,7 @@ if not st.session_state["show_admin"]:
 
             col_rp, col_bp, col_qrp = st.columns([2, 2, 1])
             with col_rp:
-                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva (Radar)</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva</div>', unsafe_allow_html=True)
                 fig_r = radar_chart(prom_p)
                 fig_r.update_layout(height=540)
                 st.plotly_chart(fig_r, use_container_width=True, config={"displayModeBar": False})
@@ -782,7 +778,7 @@ if not st.session_state["show_admin"]:
                 st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
 
             with col_qrp:
-                st.markdown('<div class="section-title">📱 Participa</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
                 url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
