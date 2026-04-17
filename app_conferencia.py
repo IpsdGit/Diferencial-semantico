@@ -358,7 +358,7 @@ def render_header():
         {logo_html}
         <div style="flex:1;">
             <h1 style="font-size:1.6rem;font-weight:800;color:#ffffff;margin:0;text-shadow:0 2px 8px rgba(0,0,0,0.4);font-family:Inter,sans-serif;">Día de la Sostenibilidad Universitaria</h1>
-            <p style="color:#F9D003;margin:4px 0 0;font-size:0.85rem;font-weight:500;letter-spacing:0.05em;font-family:Inter,sans-serif;">UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS &nbsp;·&nbsp; Diferencial Semántico &nbsp;·&nbsp; {fecha}</p>
+            <p style="color:#F9D003;margin:4px 0 0;font-size:0.85rem;font-weight:500;letter-spacing:0.05em;font-family:Inter,sans-serif;">UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS &nbsp;·&nbsp; Instituto de Profesionalización y Superación Doncente &nbsp;·&nbsp; {fecha}</p>
         </div>
         <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(249,208,3,0.15);border:1px solid #F9D003;color:#F9D003;font-weight:700;font-size:0.8rem;padding:4px 14px;border-radius:99px;font-family:Inter,sans-serif;">
             <span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;EN VIVO
