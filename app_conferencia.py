@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
 import qrcode
 from io import BytesIO
 import firebase_admin
@@ -587,26 +586,20 @@ render_header()
 # ============================================================
 if "show_admin" not in st.session_state:
     st.session_state["show_admin"] = False
-if "auto_refresh" not in st.session_state:
-    st.session_state["auto_refresh"] = True
 if "qr_url" not in st.session_state:
     st.session_state["qr_url"] = "https://diferencial-semantico.streamlit.app/"
 
 _col_toggle, _col_space, _col_admin = st.columns([1, 3, 1])
 with _col_toggle:
-    st.session_state["auto_refresh"] = st.toggle(
-        "🔄 Actualización automática",
-        value=st.session_state["auto_refresh"],
-        help="Desactívalo mientras llenas el formulario para que los sliders no se reinicien."
-    )
+    if st.button("🔄 Actualizar Datos", help="Haz clic para refrescar los datos manualmente", use_container_width=True):
+        st.rerun()
 with _col_admin:
     btn_label = "⬅️ Volver a Público" if st.session_state["show_admin"] else "🔐 Panel Admin"
     if st.button(btn_label, use_container_width=True):
         st.session_state["show_admin"] = not st.session_state["show_admin"]
         st.rerun()
 
-if st.session_state["auto_refresh"] and not st.session_state["show_admin"]:
-    st_autorefresh(interval=5000, limit=None, key="global_refresh")
+
 
 if st.session_state["show_admin"]:
     st.StopException = st.script_runner.StopException if hasattr(st, "script_runner") else Exception
@@ -751,7 +744,7 @@ if not st.session_state["show_admin"]:
 
         st.markdown("""
         <div style="text-align:center; margin-bottom:20px;">
-            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Actualiza cada 5s</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#002C9E;color:#ffffff;font-weight:700;font-size:0.82rem;padding:6px 18px;border-radius:99px;font-family:Inter,sans-serif;letter-spacing:0.05em;"><span style="width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;"></span>&nbsp;TRANSMISIÓN EN VIVO &nbsp;·&nbsp; Actualización Manual</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -766,7 +759,7 @@ if not st.session_state["show_admin"]:
 
             col_rp, col_bp, col_qrp = st.columns([2, 2, 1])
             with col_rp:
-                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva (Radar)</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">🕸️ Perfil de Percepción Colectiva</div>', unsafe_allow_html=True)
                 fig_r = radar_chart(prom_p)
                 fig_r.update_layout(height=540)
                 st.plotly_chart(fig_r, use_container_width=True, config={"displayModeBar": False})
@@ -778,7 +771,7 @@ if not st.session_state["show_admin"]:
                 st.plotly_chart(fig_b, use_container_width=True, config={"displayModeBar": False})
 
             with col_qrp:
-                st.markdown('<div class="section-title">📱 Participa</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">📱 Participa aquí</div>', unsafe_allow_html=True)
                 url_pres = st.session_state["qr_url"]
                 if url_pres:
                     qr_p = qrcode.QRCode(version=1, box_size=10, border=2)
@@ -914,7 +907,7 @@ if st.session_state.get("show_admin", False):
             <div style="text-align:center; padding:40px 20px;">
                 <div style="font-size:3rem">⏳</div>
                 <h3 style="color:#002C9E">Esperando las primeras respuestas...</h3>
-                <p style="color:#6B7A99">El dashboard se actualizará automáticamente cada 5 segundos.</p>
+                <p style="color:#6B7A99">Utiliza el botón de actualizar arriba para recargar los datos.</p>
             </div>
             """, unsafe_allow_html=True)
 
